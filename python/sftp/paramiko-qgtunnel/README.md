@@ -3,7 +3,11 @@ Python SFTP (paramiko) QuotaGuard Static Example
 
 # Prerequesites
 ```
+# install required pip
 pip install paramiko
+
+# install QGTunnel
+curl https://s3.amazonaws.com/quotaguard/qgtunnel-latest.tar.gz | tar xz
 ```
 
 # Run example
