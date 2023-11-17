@@ -8,23 +8,24 @@ public class Main {
         String user = userInfo.substring(0, userInfo.indexOf(':'));
         String password = userInfo.substring(userInfo.indexOf(':') + 1);
 
+        URLConnection conn = null;
         System.setProperty("http.proxyHost", proxyUrl.getHost());
         System.setProperty("http.proxyPort", Integer.toString(proxyUrl.getPort()));
 
         Authenticator.setDefault(new Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(user, password.toCharArray());
-            }
-        });
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication(user, password.toCharArray());
+                }
+            });
 
-        URL url = new URL("https://ip.quotaguard.com");
-        HttpURLConnection uc = (HttpURLConnection) url.openConnection();
+        URL url = new URL("http://ip.quotaguard.com");
+        conn = url.openConnection();
+        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
-        BufferedReader in = new BufferedReader(new InputStreamReader(uc.getInputStream()));
         String inputLine;
-        while ((inputLine = in.readLine()) != null) {
+        while ((inputLine = in.readLine()) != null)
             System.out.println(inputLine);
-        }
+
         in.close();
     }
 }
