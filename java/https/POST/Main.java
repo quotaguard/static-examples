@@ -17,7 +17,7 @@ public class Main {
             }
         });
 
-        URL url = new URL("http://request-checker.quotaguard.com");
+        URL url = new URL("https://request-checker.quotaguard.com");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
         // Set the request method to POST
