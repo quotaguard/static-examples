@@ -4,12 +4,9 @@ WORKDIR /app/
 
 RUN gem install rest-client
 
-# Copy qgpass into the Docker image
-COPY bin/qgpass bin/qgpass
-
-# Make qgpass executable
-RUN chmod +x bin/qgpass
+# Download and extract qgpass
+RUN curl https://s3.amazonaws.com/quotaguard/qgpass-latest.tar.gz | tar xz -C /app/
 
 COPY restclient.rb restclient.rb
 
-ENTRYPOINT [ "bin/qgpass", "ruby", "restclient.rb" ]
+ENTRYPOINT [ "/app/bin/qgpass", "ruby", "restclient.rb" ]
