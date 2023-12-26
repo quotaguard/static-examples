@@ -3,8 +3,8 @@ Ruby SFTP QuotaGuard Static Example
 
 # Prerequesites
 ```bash
-# socksify Gem
-gem install socksify
+# curb Gem
+gem install curb
 ```
 
 # Run example

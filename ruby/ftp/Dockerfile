@@ -2,7 +2,7 @@ FROM ruby:latest
 
 WORKDIR /app/
 
-RUN gem install socksify curb
+RUN gem install curb
 
 COPY ftp.rb ftp.rb
 
