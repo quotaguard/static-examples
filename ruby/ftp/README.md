@@ -1,4 +1,4 @@
-Ruby SFTP QuotaGuard Static Example
+Ruby FTP QuotaGuard Static Example
 --
 
 # Prerequesites
