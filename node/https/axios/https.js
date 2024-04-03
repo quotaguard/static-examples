@@ -7,6 +7,7 @@ const fetchIp = async () => {
     try {
         const res = await axios.get('https://ip.quotaguard.com',{
           proxy: {
+            protocol: 'http',
             host: proxy.hostname,
             port: proxy.port,
             auth: {
