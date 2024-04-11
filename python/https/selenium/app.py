@@ -5,17 +5,15 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from urllib.parse import urlparse
 
-# Configure Selenium to use a SOCKS proxy
-proxy = urlparse(os.getenv('QUOTAGUARDSTATIC_URL'))
+# Configure Selenium to use a local proxy
 chrome_options = Options()
 chrome_options.add_argument('--headless')
 chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--disable-dev-shm-usage')
-chrome_options.add_argument(f'--proxy-server={proxy}')
+chrome_options.add_argument('--proxy-server=http://localhost:8080')  # Use localhost and port 8080 for qgpass
 
-# Set path to chromedriver if it's not in your PATH
+# Create a new instance of the Chrome driver
 service = Service(executable_path='/usr/local/bin/chromedriver')
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
 
