@@ -8,9 +8,6 @@ RUN sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable 
 RUN apt-get -y update
 RUN apt-get install -y google-chrome-stable
 
-# set display port to avoid crash
-ENV DISPLAY=:99
-
 # Download and extract qgpass
 RUN curl https://s3.amazonaws.com/quotaguard/qgpass-latest.tar.gz | tar xz -C .
 
