@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const { GridFSBucket } = require('mongodb');
 
-// Set strictQuery to false to suppress the deprecation warning.
 mongoose.set('strictQuery', false);
 
 async function connectUploadAndRetrieveFile() {
