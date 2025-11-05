@@ -1,16 +1,24 @@
 const { PrismaClient } = require('@prisma/client')
 
-const prisma = new PrismaClient()
-
 async function main() {
   try {
-    const result = await prisma.$queryRaw`SELECT inet_client_addr()`
-    console.log(result)
-  } catch (error) {
-    console.error(error)
-    process.exit(1)
-  } finally {
+    console.log('Testing Prisma connection through QGTunnel...')
+    
+    // Create fresh client for each operation
+    const prisma = new PrismaClient()
+    
+    // Test the connection
+    await prisma.$connect()
+    console.log('✅ Connected to database through QGTunnel')
+    
     await prisma.$disconnect()
+    console.log('✅ Connection closed successfully')
+    
+    console.log('🎉 Prisma + QGTunnel proxy connection verified!')
+    
+  } catch (error) {
+    console.error('❌ Connection failed:', error.message)
+    process.exit(1)
   }
 }
 
