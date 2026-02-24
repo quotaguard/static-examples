@@ -1,7 +1,7 @@
 NodeJS HTTPS QuotaGuard Static Example
 --
 
-# Prerequesites
+# Prerequisites
 ```
 npm install request
 ```
