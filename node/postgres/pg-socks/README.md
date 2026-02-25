@@ -1,7 +1,7 @@
 NodeJS Postgres SOCKS QuotaGuard Static Example
 --
 
-# Prerequesites
+# Prerequisites
 ```
 npm install pg socks
 ```
