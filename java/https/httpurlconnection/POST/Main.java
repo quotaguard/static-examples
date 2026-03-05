@@ -10,10 +10,20 @@ public class Main {
 
         System.setProperty("http.proxyHost", proxyUrl.getHost());
         System.setProperty("http.proxyPort", Integer.toString(proxyUrl.getPort()));
+        System.setProperty("https.proxyHost", proxyUrl.getHost());
+        System.setProperty("https.proxyPort", Integer.toString(proxyUrl.getPort()));
+
+        // Required for HTTPS proxy tunneling: re-enable Basic auth for CONNECT requests.
+        // Java 8u111+ disables Basic auth for HTTPS tunneling by default.
+        System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "");
 
         Authenticator.setDefault(new Authenticator() {
+            @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(user, password.toCharArray());
+                if (getRequestorType() == RequestorType.PROXY) {
+                    return new PasswordAuthentication(user, password.toCharArray());
+                }
+                return null;
             }
         });
 

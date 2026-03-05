@@ -8,18 +8,27 @@ public class Main {
         String user = userInfo.substring(0, userInfo.indexOf(':'));
         String password = userInfo.substring(userInfo.indexOf(':') + 1);
 
-        URLConnection conn = null;
         System.setProperty("http.proxyHost", proxyUrl.getHost());
         System.setProperty("http.proxyPort", Integer.toString(proxyUrl.getPort()));
+        System.setProperty("https.proxyHost", proxyUrl.getHost());
+        System.setProperty("https.proxyPort", Integer.toString(proxyUrl.getPort()));
+
+        // Required for HTTPS proxy tunneling: re-enable Basic auth for CONNECT requests.
+        // Java 8u111+ disables Basic auth for HTTPS tunneling by default.
+        System.setProperty("jdk.http.auth.tunneling.disabledSchemes", "");
 
         Authenticator.setDefault(new Authenticator() {
-                protected PasswordAuthentication getPasswordAuthentication() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                if (getRequestorType() == RequestorType.PROXY) {
                     return new PasswordAuthentication(user, password.toCharArray());
                 }
-            });
+                return null;
+            }
+        });
 
-        URL url = new URL("http://ip.quotaguard.com");
-        conn = url.openConnection();
+        URL url = new URL("https://ip.quotaguard.com");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
         String inputLine;
@@ -27,5 +36,6 @@ public class Main {
             System.out.println(inputLine);
 
         in.close();
+        conn.disconnect();
     }
 }
