@@ -1,7 +1,7 @@
 Python AWS Lambda Relay QuotaGuard Static Example
 --
 
-A small forwarding function for platforms that can make outbound HTTPS calls but cannot set an HTTP proxy (Zoho Deluge, Bubble, Zapier, Google Apps Script, and similar). Your platform calls the Lambda's URL, and the Lambda forwards the request through QuotaGuard so the target API sees your static IPs. An HTTPS request to the target is tunneled through the proxy unchanged, so it stays encrypted end to end.
+A small forwarding function for platforms that can make outbound HTTP calls but cannot set an HTTP proxy (Zoho Deluge, Bubble, Zapier, Google Apps Script, and similar). Your platform calls the Lambda's URL, and the Lambda forwards the request through QuotaGuard so the target API sees your static IPs. An HTTPS request to the target is tunneled through the proxy unchanged, so it stays encrypted end to end.
 
 ```
 Your platform --> Lambda Function URL --> QuotaGuard proxy --> target API
@@ -14,8 +14,8 @@ Uses only libraries already present in the Lambda Python runtime, so there is no
 1. In the AWS console, create a Lambda function with the **Python 3.12** runtime and paste in `lambda_function.py`.
 
 2. Under **Configuration > Environment variables**, add:
-   - `QUOTAGUARDSTATIC_URL` — your Connection URL from the [QuotaGuard Dashboard](https://www.quotaguard.com/setup/outbound). It is an `http://` URL on port 9293.
-   - `RELAY_KEY` — a long random string you generate. This is the password for your relay; anyone with the URL and this key can send traffic through your proxy, so keep it secret.
+   - `QUOTAGUARDSTATIC_URL`: your Connection URL from the [QuotaGuard Dashboard](https://www.quotaguard.com/setup/outbound). It is an `http://` URL on port 9293.
+   - `RELAY_KEY`: a long random string you generate. This is the password for your relay; anyone with the URL and this key can send traffic through your proxy, so keep it secret.
 
 3. Under **Configuration > General configuration**, set the timeout to 30 seconds (the 3-second default is tight for API calls). Raise it if the target can take longer to answer.
 
@@ -25,8 +25,8 @@ Uses only libraries already present in the Lambda Python runtime, so there is no
 
 Send your request to the function URL with two extra headers:
 
-- `X-Relay-Key` — your secret key
-- `X-Target-URL` — the full URL of the API you want to reach
+- `X-Relay-Key`: your secret key
+- `X-Target-URL`: the full URL of the API you want to reach
 
 The method, body, `Content-Type`, `Accept`, and `Authorization` headers are forwarded to the target as-is, and the target's response comes back as the relay's response. To forward any other header, prefix it with `X-Fwd-`: `X-Fwd-X-Api-Key: abc` reaches the target as `X-Api-Key: abc`.
 
